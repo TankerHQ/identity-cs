@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.6;netstandard2.0</TargetFrameworks>
+
+    <Title>Tanker identity SDK for .Net</Title>
+    <AssemblyName>Tanker.Identity</AssemblyName>
+    <Company>Kontrol S.A.S.</Company>
+    <Product>Tanker</Product>
+    <Description>Small library for Tanker Identity generation</Description>
+    <AssemblyVersion>0.0.1</AssemblyVersion>
+    <Copyright>Copyright ©  2019</Copyright>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageIconUrl>https://tanker.io/favicon.ico</PackageIconUrl>
+    <RepositoryUrl>https://github.com/TankerHQ/identity-cs</RepositoryUrl>
+    <PackageTags>tanker identity sdk security</PackageTags>
+    
+  </PropertyGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Sodium.Core" Version="1.2.0" />
+  </ItemGroup>
+</Project>

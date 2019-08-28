@@ -8,14 +8,14 @@ namespace Tanker
 {
     public static class Identity
     {
-        public static string CreateIdentity(string trustchainId, string trustchainPrivateKey, string userId)
+        public static string CreateIdentity(string appId, string appSecret, string userId)
         {
-            return Utils.toBase64Json(new SecretPermanentIdentity(trustchainId, trustchainPrivateKey, userId));
+            return Utils.toBase64Json(new SecretPermanentIdentity(appId, appSecret, userId));
         }
 
-        public static string CreateProvisionalIdentity(string trustchainId, string email)
+        public static string CreateProvisionalIdentity(string appId, string email)
         {
-            return Utils.toBase64Json(new SecretProvisionalIdentity(trustchainId, email));
+            return Utils.toBase64Json(new SecretProvisionalIdentity(appId, email));
         }
 
         private static string GetPublicIdentity(SecretPermanentIdentity identity)
@@ -51,11 +51,11 @@ namespace Tanker
             }
         }
 
-        public static string UpgradeUserToken(string trustchainId, string suserId, string suserToken)
+        public static string UpgradeUserToken(string appId, string suserId, string suserToken)
         {
             var userToken = Utils.fromBase64Json<UserToken>(suserToken);
-            var identity = new SecretPermanentIdentity(userToken, trustchainId);
-            if (!Utils.CheckUserId(trustchainId, userToken.UserId, suserId))
+            var identity = new SecretPermanentIdentity(userToken, appId);
+            if (!Utils.CheckUserId(appId, userToken.UserId, suserId))
                 throw new ArgumentException("Invalid user ID provided");
             return Utils.toBase64Json(identity);
         }

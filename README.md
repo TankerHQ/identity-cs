@@ -21,7 +21,7 @@ namespace App
     {
         static void Main(string[] args)
         {
-            var aliceIdentity = Tanker.Identity.CreateIdentity(@"<your trustchainId>", @"<your trustchain private key>", @"<some user Id>");
+            var aliceIdentity = Tanker.Identity.CreateIdentity(@"<your app id>", @"<your app secret>", @"<some user Id>");
             Console.WriteLine(aliceIdentity);
             Console.ReadKey(true);
         }
@@ -33,4 +33,4 @@ namespace App
 
 ## Going further
 
-Read more about user tokens in the [Tanker guide](https://tanker.io/docs/latest/guide/server).
+Read more about *Identities* in the [Tanker guide](https://tanker.io/docs/latest/guide/adapting-server-code/).

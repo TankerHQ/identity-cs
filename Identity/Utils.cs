@@ -18,9 +18,9 @@ namespace Tanker
             return JsonConvert.DeserializeObject<T>(Encoding.ASCII.GetString(Convert.FromBase64String(b64json)));
         }
 
-        internal static bool CheckUserId(string sTrustchainId, byte[] userId, string suserId)
+        internal static bool CheckUserId(string appId, byte[] userId, string suserId)
         {
-            var trustchainId = Convert.FromBase64String(sTrustchainId);
+            var trustchainId = Convert.FromBase64String(appId);
             var userId2 = CryptoCore.ObfuscateUserId(Encoding.UTF8.GetBytes(suserId), trustchainId);
 
             return userId.SequenceEqual(userId2);

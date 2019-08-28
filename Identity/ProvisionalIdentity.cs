@@ -45,9 +45,9 @@ namespace Tanker
 
         public SecretProvisionalIdentity() { }
 
-        public SecretProvisionalIdentity(string trustchainId, string email)
+        public SecretProvisionalIdentity(string appId, string email)
         {
-            TrustchainId = trustchainId;
+            TrustchainId = appId;
             Value = email;
 
             var encKeys = CryptoCore.EncKeyPair();

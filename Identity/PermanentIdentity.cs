@@ -72,16 +72,16 @@ namespace Tanker
             }
         }
 
-        public SecretPermanentIdentity(UserToken userToken, string trustchainId = "")
+        public SecretPermanentIdentity(UserToken userToken, string appId = "")
         {
             UserToken = userToken;
-            TrustchainId = trustchainId;
+            TrustchainId = appId;
         }
 
         public SecretPermanentIdentity() : this(new UserToken()) { }
 
-        public SecretPermanentIdentity(string trustchainId, string trustchainPrivateKey, string userId)
-        : this(new UserToken(trustchainId, trustchainPrivateKey, userId), trustchainId)
+        public SecretPermanentIdentity(string appId, string appSecret, string userId)
+        : this(new UserToken(appId, appSecret, userId), appId)
         {
         }
     }

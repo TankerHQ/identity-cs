@@ -18,10 +18,10 @@ namespace Tanker
 
         public UserToken() { }
 
-        public UserToken(string trustchainId, string trustchainPrivateKey, string userId)
+        public UserToken(string appId, string appSecret, string userId)
         {
-            byte[] trustchainIdBuf = Convert.FromBase64String(trustchainId);
-            byte[] trustchainPrivateKeyBuf = Convert.FromBase64String(trustchainPrivateKey);
+            byte[] trustchainIdBuf = Convert.FromBase64String(appId);
+            byte[] trustchainPrivateKeyBuf = Convert.FromBase64String(appSecret);
 
             UserId = CryptoCore.ObfuscateUserId(Encoding.UTF8.GetBytes(userId), trustchainIdBuf);
 

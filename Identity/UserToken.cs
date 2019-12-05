@@ -23,6 +23,12 @@ namespace Tanker
             byte[] trustchainIdBuf = Convert.FromBase64String(appId);
             byte[] trustchainPrivateKeyBuf = Convert.FromBase64String(appSecret);
 
+            var generatedAppID = CryptoCore.GenerateAppID(trustchainPrivateKeyBuf);
+            if (!CryptoCore.ByteArrayCompare(generatedAppID, trustchainIdBuf))
+            {
+                throw new ArgumentException("App ID and app secret mismatch");
+            }
+
             UserId = CryptoCore.ObfuscateUserId(Encoding.UTF8.GetBytes(userId), trustchainIdBuf);
 
             var keyPair = CryptoCore.SignKeyPair();

@@ -30,6 +30,13 @@ namespace Tanker.Tests
         }
 
         [Test]
+        public void CreateIdentityMismatchingAppID()
+        {
+            string mistmatchingAppID = "rB0/yEJWCUVYRtDZLtXaJqtneXQOsCSKrtmWw+V+ysc=";
+            Assert.That(() => Identity.CreateIdentity(mistmatchingAppID, Helpers.TrustchainPrivateKey, Helpers.UserId), Throws.ArgumentException);
+        }
+
+        [Test]
         public void ProvisionalIdentitiesAreDifferent()
         {
             string aliceSidentity = Identity.CreateProvisionalIdentity(Helpers.TrustchainId, "alice@emai.ls");

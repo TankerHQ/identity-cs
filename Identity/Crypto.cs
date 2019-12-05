@@ -9,6 +9,10 @@ namespace Tanker
             public const int BlockHashSize = 32;
             public const int CheckHashBlockSize = 16;
             public const int UserSecretSize = 32;
+            private const int AppSecretSize = 64;
+            private const int PublicKeySize = 32;
+            private const int AuthorSize = 32;
+            private const int AppCreationNature = 1;
 
             public static byte[] ConcatByteArrays(byte[] a, byte[] b)
             {
@@ -37,6 +41,16 @@ namespace Tanker
             internal static byte[] ObfuscateUserId(byte[] userId, byte[] trustchainId)
             {
                 var toHash = ConcatByteArrays(userId, trustchainId);
+                return GenericHash(toHash, BlockHashSize);
+            }
+
+            internal static byte[] GenerateAppID(byte[] appSecret)
+            {
+                var publicKey = new byte[PublicKeySize];
+                Array.Copy(appSecret, AppSecretSize - PublicKeySize, publicKey, 0, PublicKeySize);
+                byte[] start = new byte[1 + AuthorSize];
+                start[0] = AppCreationNature;
+                var toHash = ConcatByteArrays(start, publicKey);
                 return GenericHash(toHash, BlockHashSize);
             }
 
@@ -73,6 +87,22 @@ namespace Tanker
             {
                 var ok = Sodium.PublicKeyAuth.VerifyDetached(signature, message, publicKey);
                 return ok;
+            }
+
+            public static bool ByteArrayCompare(byte[] left, byte[] right)
+            {
+                if (left.Length != right.Length)
+                {
+                    return false;
+                }
+                for (int i = 0; i < left.Length; i++)
+                {
+                    if (!left[i].Equals(right[i]))
+                    {
+                        return false;
+                    }
+                }
+                return true;
             }
         }
     }

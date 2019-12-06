@@ -1,4 +1,4 @@
-[![Build](https://img.shields.io/travis/TankerHQ/identity-cs/master.svg)](https://travis-ci.org/TankerHQ/identity-cs)
+[![Build](https://github.com/TankerHQ/identity-cs/workflows/Tests/badge.svg)](https://github.com/TankerHQ/identity-cs/actions)
 
 # Identity
 

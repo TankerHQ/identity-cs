@@ -34,4 +34,4 @@ namespace App
 
 ## Going further
 
-Read more about *Identities* in the [Tanker guide](https://tanker.io/docs/latest/guide/adapting-server-code/).
+Read more about *Identities* in the [Tanker documentation](https://docs.tanker.io/latest/api/identity/cs/).

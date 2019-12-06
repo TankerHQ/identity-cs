@@ -1,4 +1,5 @@
 [![Build](https://github.com/TankerHQ/identity-cs/workflows/Tests/badge.svg)](https://github.com/TankerHQ/identity-cs/actions)
+[![Coverage](https://codecov.io/gh/TankerHQ/identity-cs/branch/master/graph/badge.svg)](https://codecov.io/gh/TankerHQ/identity-cs)
 
 # Identity
 

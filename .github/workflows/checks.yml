@@ -29,6 +29,10 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '2.2.402'
+          dotnet-version: '3.0.100'
+      - name: Install coverage dependencies
+        run: choco install opencover.portable codecov
       - name: run tests
-        run: dotnet test
+        run: OpenCover.Console.exe -register:user -target:"dotnet.exe" -targetargs:test -excludebyfile:"*Identity.Tests*" -filter:"+[Tanker*]*" -output:".\coverage.xml" -oldstyle
+      - name: upload coverage
+        run: codecov -f "coverage.xml" -t ${{ secrets.CODECOV_TOKEN }}

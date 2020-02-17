@@ -39,13 +39,14 @@ namespace Tanker
             var jObj = Utils.fromBase64Json<Dictionary<string, string>>(identity);
             string targetValue;
             jObj.TryGetValue("target", out targetValue);
-            try {
-            if (targetValue == "user")
-                return GetPublicIdentity(Utils.fromBase64Json<SecretPermanentIdentity>(identity));
-            else
-                return GetPublicIdentity(Utils.fromBase64Json<SecretProvisionalIdentity>(identity));
+            try
+            {
+                if (targetValue == "user")
+                    return GetPublicIdentity(Utils.fromBase64Json<SecretPermanentIdentity>(identity));
+                else
+                    return GetPublicIdentity(Utils.fromBase64Json<SecretProvisionalIdentity>(identity));
             }
-            catch(Newtonsoft.Json.JsonSerializationException)
+            catch (Newtonsoft.Json.JsonSerializationException)
             {
                 throw new ArgumentException("Bad identity format");
             }

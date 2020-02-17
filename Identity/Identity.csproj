@@ -7,8 +7,8 @@
     <Company>Kontrol S.A.S.</Company>
     <Product>Tanker</Product>
     <Description>Small library for Tanker Identity generation</Description>
-    <AssemblyVersion>1.1.0</AssemblyVersion>
-    <Copyright>Copyright ©  2019</Copyright>
+    <AssemblyVersion>1.2.0</AssemblyVersion>
+    <Copyright>Copyright © 2019-2020</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageIconUrl>https://tanker.io/favicon.ico</PackageIconUrl>
     <RepositoryUrl>https://github.com/TankerHQ/identity-cs</RepositoryUrl>

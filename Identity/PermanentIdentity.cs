@@ -1,88 +1,52 @@
-using Newtonsoft.Json;
-using SnakeCaseStrategy = Newtonsoft.Json.Serialization.SnakeCaseNamingStrategy;
+using Tanker.Crypto;
 
+using Newtonsoft.Json;
+using System.Text;
+using System;
+
+using SnakeCaseStrategy = Newtonsoft.Json.Serialization.SnakeCaseNamingStrategy;
 
 namespace Tanker
 {
     [JsonObject(NamingStrategyType = typeof(SnakeCaseStrategy), ItemRequired = Required.Always)]
     internal class SecretPermanentIdentity
     {
-        private UserToken UserToken;
+        public byte[] DelegationSignature { get; set; }
+        public byte[] EphemeralPrivateSignatureKey { get; set; }
+        public byte[] EphemeralPublicSignatureKey { get; set; }
+        public byte[] UserSecret { get; set; }
         public string TrustchainId { get; set; }
 
         public string Target { get; set; } = "user";
 
-        public byte[] Value
-        {
-            get
-            {
-                return UserToken.UserId;
-            }
-            set
-            {
-                UserToken.UserId = value;
-            }
-        }
+        public byte[] Value { get; set; }
 
-        public byte[] DelegationSignature
-        {
-            get
-            {
-                return UserToken.DelegationSignature;
-            }
-            set
-            {
-                UserToken.DelegationSignature = value;
-            }
-        }
-
-        public byte[] EphemeralPrivateSignatureKey
-        {
-            get
-            {
-                return UserToken.EphemeralPrivateSignatureKey;
-            }
-            set
-            {
-                UserToken.EphemeralPrivateSignatureKey = value;
-            }
-        }
-
-        public byte[] EphemeralPublicSignatureKey
-        {
-            get
-            {
-                return UserToken.EphemeralPublicSignatureKey;
-            }
-            set
-            {
-                UserToken.EphemeralPublicSignatureKey = value;
-            }
-        }
-
-        public byte[] UserSecret
-        {
-            get
-            {
-                return UserToken.UserSecret;
-            }
-            set
-            {
-                UserToken.UserSecret = value;
-            }
-        }
-
-        public SecretPermanentIdentity(UserToken userToken, string appId = "")
-        {
-            UserToken = userToken;
-            TrustchainId = appId;
-        }
-
-        public SecretPermanentIdentity() : this(new UserToken()) { }
+        public SecretPermanentIdentity() { }
 
         public SecretPermanentIdentity(string appId, string appSecret, string userId)
-        : this(new UserToken(appId, appSecret, userId), appId)
         {
+            TrustchainId = appId;
+            byte[] trustchainIdBuf = Convert.FromBase64String(TrustchainId);
+            byte[] trustchainPrivateKeyBuf = Convert.FromBase64String(appSecret);
+
+            var generatedAppID = CryptoCore.GenerateAppID(trustchainPrivateKeyBuf);
+            if (!CryptoCore.ByteArrayCompare(generatedAppID, trustchainIdBuf))
+            {
+                throw new ArgumentException("App ID and app secret mismatch");
+            }
+
+            Value = CryptoCore.ObfuscateUserId(Encoding.UTF8.GetBytes(userId), trustchainIdBuf);
+
+            var keyPair = CryptoCore.SignKeyPair();
+            EphemeralPrivateSignatureKey = keyPair.PrivateKey;
+            EphemeralPublicSignatureKey = keyPair.PublicKey;
+
+            byte[] toSign = CryptoCore.ConcatByteArrays(EphemeralPublicSignatureKey, Value);
+            DelegationSignature = CryptoCore.SignDetached(toSign, trustchainPrivateKeyBuf);
+
+            byte[] randomBuf = CryptoCore.RandomBytes(CryptoCore.UserSecretSize - 1);
+            byte[] hash = CryptoCore.GenericHash(CryptoCore.ConcatByteArrays(randomBuf, Value), CryptoCore.CheckHashBlockSize);
+            UserSecret = CryptoCore.ConcatByteArrays(randomBuf, new byte[] { hash[0] });
         }
     }
 

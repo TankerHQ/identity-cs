@@ -9,6 +9,45 @@ namespace Tanker.Tests
     [TestFixture]
     public class IdentityTest
     {
+
+        [Test]
+        public void SignatureAndUserSecretAreValid()
+        {
+            var encodedIdentity = Helpers.GenerateTestPermanentIdentity();
+            var identity = Utils.fromBase64Json<SecretPermanentIdentity>(encodedIdentity);
+
+            Assert.That(Helpers.CheckSignature(
+                identity.EphemeralPublicSignatureKey,
+                identity.Value,
+                identity.DelegationSignature), Is.True);
+
+            Assert.That(Helpers.CheckUserSecret(identity.Value, identity.UserSecret), Is.True);
+        }
+
+        [Test]
+        public void InvalidDelegationSignature()
+        {
+            var encodedIdentity = Helpers.GenerateTestPermanentIdentity();
+            var identity = Utils.fromBase64Json<SecretPermanentIdentity>(encodedIdentity);
+
+            var invalidDelegationSignature = Helpers.CorruptBuffer(identity.DelegationSignature);
+
+            Assert.That(Helpers.CheckSignature(
+                identity.EphemeralPublicSignatureKey,
+                identity.Value,
+                invalidDelegationSignature), Is.False);
+        }
+
+        [Test]
+        public void InvalidUserSecret()
+        {
+            var encodedIdentity = Helpers.GenerateTestPermanentIdentity();
+            var identity = Utils.fromBase64Json<SecretPermanentIdentity>(encodedIdentity);
+
+            var invalidUserSecret = Helpers.CorruptBuffer(identity.UserSecret);
+            Assert.That(Helpers.CheckUserSecret(identity.Value, invalidUserSecret), Is.False);
+        }
+
         [Test]
         public void CreateIdentityHappy()
         {

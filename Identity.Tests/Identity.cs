@@ -83,26 +83,5 @@ namespace Tanker.Tests
             var json = Encoding.ASCII.GetBytes("{'target': 'stuff'}");
             Assert.That(() => Identity.GetPublicIdentity(Convert.ToBase64String(json)), Throws.ArgumentException);
         }
-
-        [Test]
-        public void UpgradeGoodUserToken()
-        {
-            var token = Helpers.GenerateTestToken();
-            var sidentity = Identity.UpgradeUserToken(Helpers.TrustchainId, Helpers.UserId, token);
-            var identity = Utils.fromBase64Json<SecretPermanentIdentity>(sidentity);
-
-            Assert.That(identity.TrustchainId, Is.EqualTo(Helpers.TrustchainId));
-            Assert.That(Helpers.CheckSignature(identity.EphemeralPublicSignatureKey, identity.Value, identity.DelegationSignature), Is.True);
-            Assert.That(Helpers.CheckUserSecret(identity.Value, identity.UserSecret), Is.True);
-        }
-
-        [Test]
-        public void UpgradeUserTokenBaduserID()
-        {
-            var token = Helpers.GenerateTestToken();
-            Assert.That(
-                () => Identity.UpgradeUserToken(Helpers.TrustchainId, "eve@tanker.io", token),
-            Throws.ArgumentException);
-        }
     }
 }

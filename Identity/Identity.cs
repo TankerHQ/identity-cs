@@ -50,14 +50,5 @@ namespace Tanker
                 throw new ArgumentException("Bad identity format");
             }
         }
-
-        public static string UpgradeUserToken(string appId, string suserId, string suserToken)
-        {
-            var userToken = Utils.fromBase64Json<UserToken>(suserToken);
-            var identity = new SecretPermanentIdentity(userToken, appId);
-            if (!Utils.CheckUserId(appId, userToken.UserId, suserId))
-                throw new ArgumentException("Invalid user ID provided");
-            return Utils.toBase64Json(identity);
-        }
     }
 }

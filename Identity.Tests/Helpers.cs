@@ -43,7 +43,7 @@ namespace Tanker
         {
             var res = new byte[buffer.Length];
             buffer.CopyTo(res, 0);
-            res[0] = 1;
+            res[0]++;
             return res;
         }
     }

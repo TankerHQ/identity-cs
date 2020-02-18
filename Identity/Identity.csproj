@@ -12,13 +12,13 @@
     <Copyright>Copyright © 2019-2020</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageIconUrl>https://tanker.io/favicon.ico</PackageIconUrl>
-    <PackageIcon>tanker.ico</PackageIcon>
+    <PackageIcon>tanker.png</PackageIcon>
     <RepositoryUrl>https://github.com/TankerHQ/identity-cs</RepositoryUrl>
     <PackageTags>tanker identity sdk security</PackageTags>
     
   </PropertyGroup>
   <ItemGroup>
-    <None Include="tanker.ico" Pack="true" Visible="false" PackagePath="" />
+    <None Include="tanker.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />

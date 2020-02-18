@@ -4,10 +4,11 @@
 
     <Title>Tanker identity SDK for .Net</Title>
     <AssemblyName>Tanker.Identity</AssemblyName>
+    <PackageId>Tanker.Identity</PackageId>
+    <Version>1.2.0</Version>
     <Company>Kontrol S.A.S.</Company>
     <Product>Tanker</Product>
     <Description>Small library for Tanker Identity generation</Description>
-    <AssemblyVersion>1.2.0</AssemblyVersion>
     <Copyright>Copyright © 2019-2020</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageIconUrl>https://tanker.io/favicon.ico</PackageIconUrl>

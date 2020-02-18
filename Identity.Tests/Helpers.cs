@@ -13,10 +13,10 @@ namespace Tanker
         public static string TrustchainPublicKey => "dOeLBpHz2IF37UQkS36sXomqEcEAjSyCsXZ7irn9UQA=";
         public static string UserId => "steve@tanker.io";
 
-        public static string GenerateTestToken()
+        public static string GenerateTestPermanentIdentity()
         {
-            var token = new UserToken(TrustchainId, TrustchainPrivateKey, UserId);
-            return Utils.toBase64Json(token);
+            var identity = new SecretPermanentIdentity(TrustchainId, TrustchainPrivateKey, UserId);
+            return Utils.toBase64Json(identity);
         }
 
         public static bool CheckSignature(byte[] ephemeralPublicSignatureKey, byte[] userId, byte[] signature)
@@ -43,7 +43,7 @@ namespace Tanker
         {
             var res = new byte[buffer.Length];
             buffer.CopyTo(res, 0);
-            res[0] = 1;
+            res[0]++;
             return res;
         }
     }

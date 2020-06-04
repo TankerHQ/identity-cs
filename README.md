@@ -1,3 +1,5 @@
+<a href="#readme"><img src="https://tanker.io/images/github-logo.png" alt="Tanker logo" width="180" /></a>
+
 [![Build](https://github.com/TankerHQ/identity-cs/workflows/Tests/badge.svg)](https://github.com/TankerHQ/identity-cs/actions)
 [![Coverage](https://codecov.io/gh/TankerHQ/identity-cs/branch/master/graph/badge.svg)](https://codecov.io/gh/TankerHQ/identity-cs)
 

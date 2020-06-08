@@ -5,7 +5,7 @@
 
 # Identity
 
-Identity generation using .Net for the [Tanker SDK](https://tanker.io/docs/latest).
+Identity generation using .Net for the [Tanker SDK](https://docs.tanker.io/latest/).
 
 
 ## Installation

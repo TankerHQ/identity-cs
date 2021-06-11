@@ -122,5 +122,13 @@ namespace Tanker.Tests
             var json = Encoding.ASCII.GetBytes("{'target': 'stuff'}");
             Assert.That(() => Identity.GetPublicIdentity(Convert.ToBase64String(json)), Throws.ArgumentException);
         }
+
+        [Test]
+        public void UpgradePermanentIdentityIsNoOp()
+        {
+            var identity = Identity.CreateIdentity(Helpers.TrustchainId, Helpers.TrustchainPrivateKey, Helpers.UserId);
+            var upgraded = Identity.UpgradeIdentity(identity);
+            Assert.That(identity, Is.EqualTo(upgraded));
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Text;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using Tanker.Crypto;
 
 namespace Tanker.Tests
 {
@@ -44,7 +45,8 @@ namespace Tanker.Tests
         private const string PermanentIdentity = "eyJ0cnVzdGNoYWluX2lkIjoidHBveHlOemgwaFU5RzJpOWFnTXZIeXlkK3BPNnpHQ2pPOUJmaHJDTGpkND0iLCJ0YXJnZXQiOiJ1c2VyIiwidmFsdWUiOiJSRGEwZXE0WE51ajV0VjdoZGFwak94aG1oZVRoNFFCRE5weTRTdnk5WG9rPSIsImRlbGVnYXRpb25fc2lnbmF0dXJlIjoiVTlXUW9sQ3ZSeWpUOG9SMlBRbWQxV1hOQ2kwcW1MMTJoTnJ0R2FiWVJFV2lyeTUya1d4MUFnWXprTHhINmdwbzNNaUE5cisremhubW9ZZEVKMCtKQ3c9PSIsImVwaGVtZXJhbF9wdWJsaWNfc2lnbmF0dXJlX2tleSI6IlhoM2kweERUcHIzSFh0QjJRNTE3UUt2M2F6TnpYTExYTWRKRFRTSDRiZDQ9IiwiZXBoZW1lcmFsX3ByaXZhdGVfc2lnbmF0dXJlX2tleSI6ImpFRFQ0d1FDYzFERndvZFhOUEhGQ2xuZFRQbkZ1Rm1YaEJ0K2lzS1U0WnBlSGVMVEVOT212Y2RlMEhaRG5YdEFxL2RyTTNOY3N0Y3gwa05OSWZodDNnPT0iLCJ1c2VyX3NlY3JldCI6IjdGU2YvbjBlNzZRVDNzMERrdmV0UlZWSmhYWkdFak94ajVFV0FGZXh2akk9In0=";
         private const string ProvisionalIdentity = "eyJ0cnVzdGNoYWluX2lkIjoidHBveHlOemgwaFU5RzJpOWFnTXZIeXlkK3BPNnpHQ2pPOUJmaHJDTGpkND0iLCJ0YXJnZXQiOiJlbWFpbCIsInZhbHVlIjoiYnJlbmRhbi5laWNoQHRhbmtlci5pbyIsInB1YmxpY19lbmNyeXB0aW9uX2tleSI6Ii8yajRkSTNyOFBsdkNOM3VXNEhoQTV3QnRNS09jQUNkMzhLNk4wcSttRlU9IiwicHJpdmF0ZV9lbmNyeXB0aW9uX2tleSI6IjRRQjVUV212Y0JyZ2V5RERMaFVMSU5VNnRicUFPRVE4djlwakRrUGN5YkE9IiwicHVibGljX3NpZ25hdHVyZV9rZXkiOiJXN1FFUUJ1OUZYY1hJcE9ncTYydFB3Qml5RkFicFQxckFydUQwaC9OclRBPSIsInByaXZhdGVfc2lnbmF0dXJlX2tleSI6IlVtbll1dmRUYUxZRzBhK0phRHBZNm9qdzQvMkxsOHpzbXJhbVZDNGZ1cVJidEFSQUc3MFZkeGNpazZDcnJhMC9BR0xJVUJ1bFBXc0N1NFBTSDgydE1BPT0ifQ==";
         private const string PublicIdentity = "eyJ0cnVzdGNoYWluX2lkIjoidHBveHlOemgwaFU5RzJpOWFnTXZIeXlkK3BPNnpHQ2pPOUJmaHJDTGpkND0iLCJ0YXJnZXQiOiJ1c2VyIiwidmFsdWUiOiJSRGEwZXE0WE51ajV0VjdoZGFwak94aG1oZVRoNFFCRE5weTRTdnk5WG9rPSJ9";
-        private const string PublicProvisionalIdentity = "eyJ0cnVzdGNoYWluX2lkIjoidHBveHlOemgwaFU5RzJpOWFnTXZIeXlkK3BPNnpHQ2pPOUJmaHJDTGpkND0iLCJ0YXJnZXQiOiJlbWFpbCIsInZhbHVlIjoiYnJlbmRhbi5laWNoQHRhbmtlci5pbyIsInB1YmxpY19lbmNyeXB0aW9uX2tleSI6Ii8yajRkSTNyOFBsdkNOM3VXNEhoQTV3QnRNS09jQUNkMzhLNk4wcSttRlU9IiwicHVibGljX3NpZ25hdHVyZV9rZXkiOiJXN1FFUUJ1OUZYY1hJcE9ncTYydFB3Qml5RkFicFQxckFydUQwaC9OclRBPSJ9";
+        private const string OldPublicProvisionalIdentity = "eyJ0cnVzdGNoYWluX2lkIjoidHBveHlOemgwaFU5RzJpOWFnTXZIeXlkK3BPNnpHQ2pPOUJmaHJDTGpkND0iLCJ0YXJnZXQiOiJlbWFpbCIsInZhbHVlIjoiYnJlbmRhbi5laWNoQHRhbmtlci5pbyIsInB1YmxpY19lbmNyeXB0aW9uX2tleSI6Ii8yajRkSTNyOFBsdkNOM3VXNEhoQTV3QnRNS09jQUNkMzhLNk4wcSttRlU9IiwicHVibGljX3NpZ25hdHVyZV9rZXkiOiJXN1FFUUJ1OUZYY1hJcE9ncTYydFB3Qml5RkFicFQxckFydUQwaC9OclRBPSJ9";
+        private const string PublicProvisionalIdentity = "eyJ0cnVzdGNoYWluX2lkIjoidHBveHlOemgwaFU5RzJpOWFnTXZIeXlkK3BPNnpHQ2pPOUJmaHJDTGpkND0iLCJ0YXJnZXQiOiJoYXNoZWRfZW1haWwiLCJ2YWx1ZSI6IjB1MmM4dzhFSVpXVDJGelJOL3l5TTVxSWJFR1lUTkRUNVNrV1ZCdTIwUW89IiwicHVibGljX2VuY3J5cHRpb25fa2V5IjoiLzJqNGRJM3I4UGx2Q04zdVc0SGhBNXdCdE1LT2NBQ2QzOEs2TjBxK21GVT0iLCJwdWJsaWNfc2lnbmF0dXJlX2tleSI6Ilc3UUVRQnU5RlhjWElwT2dxNjJ0UHdCaXlGQWJwVDFyQXJ1RDBoL05yVEE9In0=";
 
         [Test]
         public void ValidPermanentIdentity()
@@ -88,16 +90,37 @@ namespace Tanker.Tests
         }
 
         [Test]
-        public void ValidPublicProvisionalIdentity()
+        public void ValidOldPublicProvisionalIdentity()
         {
-            var identity = Utils.fromBase64Json<PublicProvisionalIdentity>(PublicProvisionalIdentity);
+            var identity = Utils.fromBase64Json<PublicProvisionalIdentity>(OldPublicProvisionalIdentity);
 
             Assert.That(identity.TrustchainId, Is.EqualTo(TrustchainID));
             Assert.That(identity.Target, Is.EqualTo("email"));
             Assert.That(identity.Value, Is.EqualTo(UserEmail));
             Assert.That(identity.PublicSignatureKey, Is.EqualTo(Convert.FromBase64String("W7QEQBu9FXcXIpOgq62tPwBiyFAbpT1rAruD0h/NrTA=")));
             Assert.That(identity.PublicEncryptionKey, Is.EqualTo(Convert.FromBase64String("/2j4dI3r8PlvCN3uW4HhA5wBtMKOcACd38K6N0q+mFU=")));
+            Assert.That(Utils.toBase64Json(identity), Is.EqualTo(OldPublicProvisionalIdentity));
+        }
+
+        [Test]
+        public void ValidPublicProvisionalIdentity()
+        {
+            var identity = Utils.fromBase64Json<PublicProvisionalIdentity>(PublicProvisionalIdentity);
+            var hashedEmail = Convert.ToBase64String(CryptoCore.GenericHash(Encoding.UTF8.GetBytes(UserEmail), 32));
+
+            Assert.That(identity.TrustchainId, Is.EqualTo(TrustchainID));
+            Assert.That(identity.Target, Is.EqualTo("hashed_email"));
+            Assert.That(identity.Value, Is.EqualTo(hashedEmail));
+            Assert.That(identity.PublicSignatureKey, Is.EqualTo(Convert.FromBase64String("W7QEQBu9FXcXIpOgq62tPwBiyFAbpT1rAruD0h/NrTA=")));
+            Assert.That(identity.PublicEncryptionKey, Is.EqualTo(Convert.FromBase64String("/2j4dI3r8PlvCN3uW4HhA5wBtMKOcACd38K6N0q+mFU=")));
             Assert.That(Utils.toBase64Json(identity), Is.EqualTo(PublicProvisionalIdentity));
+        }
+
+        [Test]
+        public void UpgradeProvisionalIdentity()
+        {
+            var upgraded = Identity.UpgradeIdentity(OldPublicProvisionalIdentity);
+            Assert.That(upgraded, Is.EqualTo(PublicProvisionalIdentity));
         }
     }
 }

@@ -59,21 +59,15 @@ namespace Tanker
             var jObj = Utils.fromBase64Json<Dictionary<string, string>>(identity);
             string targetValue;
             jObj.TryGetValue("target", out targetValue);
-            try
-            {
-                if (targetValue == "email" && !jObj.ContainsKey("private_encryption_key")) {
-                    var publicIdentity = Utils.fromBase64Json<PublicProvisionalIdentity>(identity);
-                    publicIdentity.Target = "hashed_email";
-                    var hashedEmail = CryptoCore.GenericHash(Encoding.UTF8.GetBytes(publicIdentity.Value), 32);
-                    publicIdentity.Value = Convert.ToBase64String(hashedEmail);
-                    return Utils.toBase64Json(publicIdentity);
-                } else {
-                    return Utils.toBase64Json(jObj);
-                }
-            }
-            catch (Newtonsoft.Json.JsonSerializationException)
-            {
-                throw new ArgumentException("Bad identity format");
+            
+            if (targetValue == "email" && !jObj.ContainsKey("private_encryption_key")) {
+                var publicIdentity = Utils.fromBase64Json<PublicProvisionalIdentity>(identity);
+                publicIdentity.Target = "hashed_email";
+                var hashedEmail = CryptoCore.GenericHash(Encoding.UTF8.GetBytes(publicIdentity.Value), 32);
+                publicIdentity.Value = Convert.ToBase64String(hashedEmail);
+                return Utils.toBase64Json(publicIdentity);
+            } else {
+                return Utils.toBase64Json(jObj);
             }
         }
     }

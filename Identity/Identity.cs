@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Text;
+using Tanker.Crypto;
 
 [assembly: InternalsVisibleTo("Identity.Tests")]
 
@@ -45,6 +47,29 @@ namespace Tanker
                     return GetPublicIdentity(Utils.fromBase64Json<SecretPermanentIdentity>(identity));
                 else
                     return GetPublicIdentity(Utils.fromBase64Json<SecretProvisionalIdentity>(identity));
+            }
+            catch (Newtonsoft.Json.JsonSerializationException)
+            {
+                throw new ArgumentException("Bad identity format");
+            }
+        }
+
+        public static string UpgradeIdentity(string identity)
+        {
+            var jObj = Utils.fromBase64Json<Dictionary<string, string>>(identity);
+            string targetValue;
+            jObj.TryGetValue("target", out targetValue);
+            try
+            {
+                if (targetValue == "email" && !jObj.ContainsKey("private_encryption_key")) {
+                    var publicIdentity = Utils.fromBase64Json<PublicProvisionalIdentity>(identity);
+                    publicIdentity.Target = "hashed_email";
+                    var hashedEmail = CryptoCore.GenericHash(Encoding.UTF8.GetBytes(publicIdentity.Value), 32);
+                    publicIdentity.Value = Convert.ToBase64String(hashedEmail);
+                    return Utils.toBase64Json(publicIdentity);
+                } else {
+                    return Utils.toBase64Json(jObj);
+                }
             }
             catch (Newtonsoft.Json.JsonSerializationException)
             {

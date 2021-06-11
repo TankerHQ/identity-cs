@@ -1,7 +1,8 @@
 using Newtonsoft.Json;
 using SnakeCaseStrategy = Newtonsoft.Json.Serialization.SnakeCaseNamingStrategy;
 using Tanker.Crypto;
-
+using System;
+using System.Text;
 
 namespace Tanker
 {
@@ -26,8 +27,14 @@ namespace Tanker
             TrustchainId = secretIdentity.TrustchainId;
             Target = secretIdentity.Target;
             Value = secretIdentity.Value;
+            if (Target == "email") {
+                Target = "hashed_email";
+                var hashedEmail = CryptoCore.GenericHash(Encoding.UTF8.GetBytes(Value), 32);
+                Value = Convert.ToBase64String(hashedEmail);
+            }
+
             PublicEncryptionKey = secretIdentity.PublicEncryptionKey;
-            PublicSignatureKey = secretIdentity.PublicEncryptionKey;
+            PublicSignatureKey = secretIdentity.PublicSignatureKey;
         }
     }
 

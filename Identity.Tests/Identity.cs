@@ -94,10 +94,10 @@ namespace Tanker.Tests
             var sPublicIdentity = Identity.GetPublicIdentity(sAliceIdentity);
 
             var aliceProvisional = Utils.fromBase64Json<SecretProvisionalIdentity>(sAliceIdentity);
-            var alicePublic = Utils.fromBase64Json<PublicProvisionalIdentity>(sAliceIdentity);
+            var alicePublic = Utils.fromBase64Json<PublicProvisionalIdentity>(sPublicIdentity);
 
             Assert.That(alicePublic.TrustchainId, Is.EqualTo(aliceProvisional.TrustchainId));
-            Assert.That(alicePublic.Target, Is.EqualTo("email"));
+            Assert.That(alicePublic.Target, Is.EqualTo("hashed_email"));
             Assert.That(alicePublic.PublicEncryptionKey, Is.EqualTo(aliceProvisional.PublicEncryptionKey));
             Assert.That(alicePublic.PublicSignatureKey, Is.EqualTo(aliceProvisional.PublicSignatureKey));
         }

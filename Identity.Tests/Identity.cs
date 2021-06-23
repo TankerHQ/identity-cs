@@ -76,6 +76,12 @@ namespace Tanker.Tests
         }
 
         [Test]
+        public void ProvisionalIdentityInvalidTarget()
+        {
+            Assert.That(() => Identity.CreateProvisionalIdentity(Helpers.TrustchainId, "INVALID!", "xxx"), Throws.ArgumentException);
+        }
+
+        [Test]
         public void ProvisionalIdentitiesAreDifferent()
         {
             string aliceSidentity = Identity.CreateProvisionalIdentity(Helpers.TrustchainId, "email", "alice@emai.ls");

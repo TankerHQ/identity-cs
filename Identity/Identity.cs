@@ -15,9 +15,9 @@ namespace Tanker
             return Utils.toBase64Json(new SecretPermanentIdentity(appId, appSecret, userId));
         }
 
-        public static string CreateProvisionalIdentity(string appId, string email)
+        public static string CreateProvisionalIdentity(string appId, string target, string value)
         {
-            return Utils.toBase64Json(new SecretProvisionalIdentity(appId, email));
+            return Utils.toBase64Json(new SecretProvisionalIdentity(appId, target, value));
         }
 
         private static string GetPublicIdentity(SecretPermanentIdentity identity)

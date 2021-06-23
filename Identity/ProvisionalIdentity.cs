@@ -3,6 +3,7 @@ using SnakeCaseStrategy = Newtonsoft.Json.Serialization.SnakeCaseNamingStrategy;
 using Tanker.Crypto;
 using System;
 using System.Text;
+using System.Linq;
 
 namespace Tanker
 {
@@ -31,6 +32,8 @@ namespace Tanker
                 Target = "hashed_email";
                 var hashedEmail = CryptoCore.GenericHash(Encoding.UTF8.GetBytes(Value), 32);
                 Value = Convert.ToBase64String(hashedEmail);
+            } else {
+                Value = CryptoCore.HashProvisionalValue(Value, secretIdentity.PrivateSignatureKey);
             }
 
             PublicEncryptionKey = secretIdentity.PublicEncryptionKey;
@@ -41,10 +44,12 @@ namespace Tanker
     [JsonObject(NamingStrategyType = typeof(SnakeCaseStrategy), ItemRequired = Required.Always)]
     internal class SecretProvisionalIdentity
     {
+        private static readonly string[] VALID_TARGETS = {"email", "phone_number"};
+
         [JsonProperty(Order = 1)]
         public string TrustchainId { get; set; }
         [JsonProperty(Order = 2)]
-        public string Target { get; set; } = "email";
+        public string Target { get; set; }
         [JsonProperty(Order = 3)]
         public string Value { get; set; }
         [JsonProperty(Order = 4)]
@@ -58,10 +63,15 @@ namespace Tanker
 
         public SecretProvisionalIdentity() { }
 
-        public SecretProvisionalIdentity(string appId, string email)
+        public SecretProvisionalIdentity(string appId, string target, string value)
         {
+
+            if (!VALID_TARGETS.Contains(target))
+                throw new ArgumentException("Unsupported provisional identity target");
+
             TrustchainId = appId;
-            Value = email;
+            Target = target;
+            Value = value;
 
             var encKeys = CryptoCore.EncKeyPair();
             PublicEncryptionKey = encKeys.PublicKey;

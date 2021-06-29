@@ -29,12 +29,12 @@ namespace Tanker
             Target = secretIdentity.Target;
             Value = secretIdentity.Value;
             if (Target == "email") {
-                Target = "hashed_email";
                 var hashedEmail = CryptoCore.GenericHash(Encoding.UTF8.GetBytes(Value), 32);
                 Value = Convert.ToBase64String(hashedEmail);
             } else {
                 Value = CryptoCore.HashProvisionalValue(Value, secretIdentity.PrivateSignatureKey);
             }
+                Target = "hashed_" + Target;
 
             PublicEncryptionKey = secretIdentity.PublicEncryptionKey;
             PublicSignatureKey = secretIdentity.PublicSignatureKey;

@@ -11,14 +11,19 @@ namespace Tanker
     [JsonObject(NamingStrategyType = typeof(SnakeCaseStrategy), ItemRequired = Required.Always)]
     internal class SecretPermanentIdentity
     {
+        [JsonProperty(Order = 4)]
         public byte[] DelegationSignature { get; set; }
+        [JsonProperty(Order = 6)]
         public byte[] EphemeralPrivateSignatureKey { get; set; }
+        [JsonProperty(Order = 5)]
         public byte[] EphemeralPublicSignatureKey { get; set; }
+        [JsonProperty(Order = 7)]
         public byte[] UserSecret { get; set; }
+        [JsonProperty(Order = 1)]
         public string TrustchainId { get; set; }
-
+        [JsonProperty(Order = 2)]
         public string Target { get; set; } = "user";
-
+        [JsonProperty(Order = 3)]
         public byte[] Value { get; set; }
 
         public SecretPermanentIdentity() { }
@@ -53,10 +58,11 @@ namespace Tanker
     [JsonObject(NamingStrategyType = typeof(SnakeCaseStrategy))]
     internal class PublicPermanentIdentity
     {
+        [JsonProperty(Order = 1)]
         public string TrustchainId { get; set; }
-
-        public byte[] Value { get; set; }
-
+        [JsonProperty(Order = 2)]
         public string Target { get; } = "user";
+        [JsonProperty(Order = 3)]
+        public byte[] Value { get; set; }
     }
 }

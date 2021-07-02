@@ -76,11 +76,17 @@ namespace Tanker.Tests
         }
 
         [Test]
+        public void ProvisionalIdentityInvalidTarget()
+        {
+            Assert.That(() => Identity.CreateProvisionalIdentity(Helpers.TrustchainId, "INVALID!", "xxx"), Throws.ArgumentException);
+        }
+
+        [Test]
         public void ProvisionalIdentitiesAreDifferent()
         {
-            string aliceSidentity = Identity.CreateProvisionalIdentity(Helpers.TrustchainId, "alice@emai.ls");
+            string aliceSidentity = Identity.CreateProvisionalIdentity(Helpers.TrustchainId, "email", "alice@emai.ls");
             var aliceIdentity = Utils.fromBase64Json<SecretProvisionalIdentity>(aliceSidentity);
-            string bobSidentity = Identity.CreateProvisionalIdentity(Helpers.TrustchainId, "bob@emai.ls");
+            string bobSidentity = Identity.CreateProvisionalIdentity(Helpers.TrustchainId, "email", "bob@emai.ls");
             var bobIdentity = Utils.fromBase64Json<SecretProvisionalIdentity>(bobSidentity);
 
             Assert.That(aliceIdentity.PublicEncryptionKey, Is.Not.EqualTo(bobIdentity.PublicEncryptionKey));
@@ -90,14 +96,14 @@ namespace Tanker.Tests
         [Test]
         public void PublicIdentityMatchesProvisionalIdentity()
         {
-            var sAliceIdentity = Identity.CreateProvisionalIdentity(Helpers.TrustchainId, "alice@emai.ls");
+            var sAliceIdentity = Identity.CreateProvisionalIdentity(Helpers.TrustchainId, "email", "alice@emai.ls");
             var sPublicIdentity = Identity.GetPublicIdentity(sAliceIdentity);
 
             var aliceProvisional = Utils.fromBase64Json<SecretProvisionalIdentity>(sAliceIdentity);
-            var alicePublic = Utils.fromBase64Json<PublicProvisionalIdentity>(sAliceIdentity);
+            var alicePublic = Utils.fromBase64Json<PublicProvisionalIdentity>(sPublicIdentity);
 
             Assert.That(alicePublic.TrustchainId, Is.EqualTo(aliceProvisional.TrustchainId));
-            Assert.That(alicePublic.Target, Is.EqualTo("email"));
+            Assert.That(alicePublic.Target, Is.EqualTo("hashed_email"));
             Assert.That(alicePublic.PublicEncryptionKey, Is.EqualTo(aliceProvisional.PublicEncryptionKey));
             Assert.That(alicePublic.PublicSignatureKey, Is.EqualTo(aliceProvisional.PublicSignatureKey));
         }
@@ -121,6 +127,14 @@ namespace Tanker.Tests
         {
             var json = Encoding.ASCII.GetBytes("{'target': 'stuff'}");
             Assert.That(() => Identity.GetPublicIdentity(Convert.ToBase64String(json)), Throws.ArgumentException);
+        }
+
+        [Test]
+        public void UpgradePermanentIdentityIsNoOp()
+        {
+            var identity = Identity.CreateIdentity(Helpers.TrustchainId, Helpers.TrustchainPrivateKey, Helpers.UserId);
+            var upgraded = Identity.UpgradeIdentity(identity);
+            Assert.That(identity, Is.EqualTo(upgraded));
         }
     }
 }

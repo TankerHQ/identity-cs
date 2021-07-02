@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 
 namespace Tanker
 {
@@ -52,6 +53,14 @@ namespace Tanker
                 start[0] = AppCreationNature;
                 var toHash = ConcatByteArrays(start, publicKey);
                 return GenericHash(toHash, BlockHashSize);
+            }
+
+            public static string HashProvisionalValue(string value, byte[] privateSignatureKey)
+            {
+                var hashSalt = CryptoCore.GenericHash(privateSignatureKey, 32);
+                var toHash = ConcatByteArrays(hashSalt, Encoding.UTF8.GetBytes(value));
+                var hashedValue = CryptoCore.GenericHash(toHash, 32);
+                return Convert.ToBase64String(hashedValue);
             }
 
             public static KeyPair SignKeyPair()

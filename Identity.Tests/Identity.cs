@@ -76,11 +76,17 @@ namespace Tanker.Tests
         }
 
         [Test]
+        public void ProvisionalIdentityInvalidTarget()
+        {
+            Assert.That(() => Identity.CreateProvisionalIdentity(Helpers.TrustchainId, "INVALID!", "xxx"), Throws.ArgumentException);
+        }
+
+        [Test]
         public void ProvisionalIdentitiesAreDifferent()
         {
-            string aliceSidentity = Identity.CreateProvisionalIdentity(Helpers.TrustchainId, "alice@emai.ls");
+            string aliceSidentity = Identity.CreateProvisionalIdentity(Helpers.TrustchainId, "email", "alice@emai.ls");
             var aliceIdentity = Utils.fromBase64Json<SecretProvisionalIdentity>(aliceSidentity);
-            string bobSidentity = Identity.CreateProvisionalIdentity(Helpers.TrustchainId, "bob@emai.ls");
+            string bobSidentity = Identity.CreateProvisionalIdentity(Helpers.TrustchainId, "email", "bob@emai.ls");
             var bobIdentity = Utils.fromBase64Json<SecretProvisionalIdentity>(bobSidentity);
 
             Assert.That(aliceIdentity.PublicEncryptionKey, Is.Not.EqualTo(bobIdentity.PublicEncryptionKey));
@@ -90,7 +96,7 @@ namespace Tanker.Tests
         [Test]
         public void PublicIdentityMatchesProvisionalIdentity()
         {
-            var sAliceIdentity = Identity.CreateProvisionalIdentity(Helpers.TrustchainId, "alice@emai.ls");
+            var sAliceIdentity = Identity.CreateProvisionalIdentity(Helpers.TrustchainId, "email", "alice@emai.ls");
             var sPublicIdentity = Identity.GetPublicIdentity(sAliceIdentity);
 
             var aliceProvisional = Utils.fromBase64Json<SecretProvisionalIdentity>(sAliceIdentity);

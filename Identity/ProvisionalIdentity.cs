@@ -34,7 +34,7 @@ namespace Tanker
             } else {
                 Value = CryptoCore.HashProvisionalValue(Value, secretIdentity.PrivateSignatureKey);
             }
-                Target = "hashed_" + Target;
+            Target = "hashed_" + Target;
 
             PublicEncryptionKey = secretIdentity.PublicEncryptionKey;
             PublicSignatureKey = secretIdentity.PublicSignatureKey;

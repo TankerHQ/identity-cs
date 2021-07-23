@@ -5,7 +5,7 @@
     <Title>Tanker identity SDK for .Net</Title>
     <AssemblyName>Tanker.Identity</AssemblyName>
     <PackageId>Tanker.Identity</PackageId>
-    <Version>3.0.0</Version>
+    <Version>0.0.1</Version>
     <Company>Kontrol S.A.S.</Company>
     <Product>Tanker</Product>
     <Description>Small library for Tanker Identity generation</Description>
@@ -15,7 +15,7 @@
     <PackageIcon>tanker.png</PackageIcon>
     <RepositoryUrl>https://github.com/TankerHQ/identity-cs</RepositoryUrl>
     <PackageTags>tanker identity sdk security</PackageTags>
-    
+
   </PropertyGroup>
   <ItemGroup>
     <None Include="tanker.png" Pack="true" Visible="false" PackagePath="" />

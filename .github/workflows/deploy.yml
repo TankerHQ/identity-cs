@@ -1,0 +1,31 @@
+name: Deploy
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - uses: actions/setup-dotnet@v1
+        with:
+          sdk-version: 2.1.816
+      - name: Install and configure poetry
+        run: python -m pip install poetry
+      - name: Install python packages
+        run: python -m poetry install
+      - name: Bump files
+        run: python -m poetry run python run-ci.py bump --git-tag "$(git describe --tags)"
+      - name: Run tests
+        run: dotnet test
+      - name: Package
+        run: dotnet pack -c RELEASE
+      - name: publish
+        run: dotnet nuget push -k "${NUGET_API_KEY}" -s https://api.nuget.org/v3/index.json Identity/bin/Release/Tanker.Identity.*.nupkg
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}

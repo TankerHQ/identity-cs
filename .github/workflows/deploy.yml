@@ -20,7 +20,7 @@ jobs:
       - name: Install python packages
         run: python -m poetry install
       - name: Bump files
-        run: python -m poetry run python run-ci.py bump --git-tag "$(git describe --tags)"
+        run: python -m poetry run python run-ci.py bump --git-tag "${GITHUB_REF#refs/tags/}"
       - name: Run tests
         run: dotnet test
       - name: Package

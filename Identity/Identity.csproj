@@ -2,13 +2,13 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard1.6;netstandard2.0</TargetFrameworks>
 
-    <Title>Tanker identity SDK for .Net</Title>
+    <Title>Tanker identity management SDK for .NET</Title>
     <AssemblyName>Tanker.Identity</AssemblyName>
     <PackageId>Tanker.Identity</PackageId>
     <Version>0.0.1</Version>
-    <Company>Kontrol S.A.S.</Company>
-    <Product>Tanker</Product>
-    <Description>Small library for Tanker Identity generation</Description>
+    <Company>Tanker SAS</Company>
+    <Product>Tanker identity SDK</Product>
+    <Description>Tanker identity management SDK for .NET</Description>
     <Copyright>Copyright © 2019-2021</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageIconUrl>https://tanker.io/favicon.ico</PackageIconUrl>
